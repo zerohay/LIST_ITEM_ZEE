@@ -1,0 +1,40 @@
+local ZEE = { 
+{
+    "items": [
+        {
+            {id = "372", nama = "Stinky Socks"},
+            {id = "374", nama = "Tan Shirt"},
+            {id = "42", nama = "Boots"},
+            {id = "68", nama = "Brown Hair"},
+            {id = "40", nama = "Brown Shoes"},
+            {id = "130", nama = "Hot Head"},
+            {id = "270", nama = "Messy Brown Hair"},
+            {id = "236", nama = "Santa Pants"},
+            {id = "142", nama = "Shallot Mustache"},
+            {id = "694", nama = "Worthless Rags"},
+            {id = "10034", nama = "Axolotl Hoodie"},
+            {id = "140", nama = "Biker Stache"},
+            {id = "76", nama = "Black Pants"},
+            {id = "44", nama = "Red Hair"},
+            {id = "34", nama = "Shades"},
+            {id = "36", nama = "Green Shirt"},
+            {id = "122", nama = "Red Riding Hood"},
+            {id = "238", nama = "Santa Vest"},
+            {id = "66", nama = "Top Hat"},
+            {id = "38", nama = "Tuxedo"},
+            {id = "90", nama = "Blonde Bombshell"},
+            {id = "208", nama = "Burglar Mask"},
+            {id = "272", nama = "Long Brown Hair"},
+            {id = "144", nama = "X-Ray Specs"},
+            {id = "2938", nama = "Flower Sarong"},
+            {id = "354", nama = "Viking Helmet"},
+            {id = "138", nama = "Cyclopean Visor"},
+            {id = "11202", nama = "Futuristic Sunglasses"},
+            {id = "342", nama = "Lovely Pink Dress"},
+            {id = "1846", nama = "Messy Auburn Tresses"},
+            {id = "210", nama = "Referee Shirt"},
+            {id = "234", nama = "Santa Hat"},
+        }
+    ]
+}
+}
