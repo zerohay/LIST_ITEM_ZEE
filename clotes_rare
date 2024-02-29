@@ -2,6 +2,7 @@ local nama = {
 {
     "items": [
         {
+            {id = 18, nama = "18"},
             {id = 50, nama = "50"},
             {id = 268, nama = "268"},
             {id = 788, nama = "788"},
