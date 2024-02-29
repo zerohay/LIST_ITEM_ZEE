@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+    <title>CONFIG BVS AND 3D</title>
+        <!-- batas nama web-->
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dark/Light Theme</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                transition: background-color 0.3s, color 0.3s;
+                margin: 0;
+                padding: 0;
+            }
+
+            /* Dark Theme */
+            .dark-theme {
+                background-color: #000000;
+                color: #ffffff;
+            }
+
+            /* Light Theme */
+            .light-theme {
+                background-color: #ffffff;
+                color: #333333;
+            }
+    
+            /* Content Styling */
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                text-align: center;
+            }
+    
+            .toggle-btn {
+                background-color: transparent;
+                color: inherit;
+                border: 2px solid #1eff00;
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+                outline: none;
+                transition: background-color 0.3s, color 0.3s;
+            }
+    
+            .toggle-btn:hover {
+                background-color: #555555;
+                color: #ffffff;
+            }
+        </style>
+    </head>
+    <body class="dark-theme">
+        <div class="container">
+            <h1>Dark/Light Theme</h1>
+            <button class="toggle-btn" onclick="toggleTheme()">Change Theme</button>
+            <h2>Simple Script Generator</h2>
+            <p>CONFIGURATION SCRIPT SETTING IN TELNET</p>
+        </div>
+    
+        <script>
+            function toggleTheme() {
+                const body = document.body;
+                body.classList.toggle('light-theme');
+            }
+        </script>
+    </body>
+    </html>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Script Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        input, select, textarea {
+            margin-bottom: 2px;
+            width: 45%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: transparent;
+            color: inherit;
+            border: 2px solid #1eff00;
+            width: 45%;
+            padding: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            outline: none;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+		#generatedScript {
+			position: absolute;
+			top: 270px;
+			right: 10px;
+            background-color: transparent;
+            color: inherit;
+            border: 2px solid #1eff00;
+            width: 45%;
+            padding: 8px;
+            cursor: pointer;
+            outline: none;
+            transition: background-color 0.3s, color 0.3s;
+		}
+</style>
+    </style>
+</head>
+<body>
+    
+    <form id="scriptForm">
+        <label for="s1">ISP:</label>
+        <select id="s1" onchange="updateS2(this)">
+            <option value="ISP">Pilih ISP</option>
+            <option value="BVS">BVS</option>
+            <option value="3D">3D</option>
+        </select>
+
+        <label for="S2">REGION:</label>
+        <select id="S2">
+            <option value="Region">Pilih Region</option>
+        </select>
+
+		<label for="mdm">MODEM:</label>
+			<select id="mdm" name="mdm" required>
+			<option value="Modem" selected>Pilih Modem</option>
+			<option value="RTE">RTE</option>
+			<option value="ZTE">ZTE</option>
+		</select>
+
+        <label for="nam">NAMA-PELANGGAN:</label>
+        <input type="text" id="nam" name="nam" required>
+
+        <label for="pel">ID-PELANGGAN:</label>
+        <input type="text" id="pel" name="pel" required>
+
+        <label for="sn">SN:</label>
+        <input type="text" id="sn" name="sn" required>
+
+        <label for="prt">PORT:</label>
+        <input type="text" id="prt" name="prt" required>
+
+        <label for="sl">SLOT:</label>
+        <input type="text" id="sl" name="sl" required>
+
+        <label for=""></label>
+        <button type="button" onclick="displayResult(); generateScript();">Generate Script</button>
+        
+        <label for=""></label>
+        <button type="button" onclick="copyScriptToClipboard()">Copy Hasil Generator</button>
+
+        <script>
+
+            document.addEventListener('keydown', function (event) {
+                if (event.keyCode === 13) {
+                    generateScript();
+                    copyScriptToClipboard()
+                }
+            });
+
+        </script>
+
+    </form>
+	
+    <p id="result"></p>
+    <pre id="generatedScript"></pre>
+
+    <script>
+    function updateS2(selectedOption) {
+    console.log('updateS2 called');
+    
+    var s1 = document.getElementById('s1');
+    var S2 = document.getElementById('S2');
+
+    S2.innerHTML = '';
+
+    var selectedCategory = s1.value;
+
+    
+    if (selectedCategory === 'BVS') {
+        addOption(S2, 'Bangko', 'Bangko');
+        addOption(S2, 'Sarolangun', 'Sarolangun');
+        addOption(S2, 'Jambi', 'Jambi');
+        addOption(S2, 'Bulian', 'Bulian');
+    } else if (selectedCategory === '3D') {
+        addOption(S2, 'Persijam', 'Persijam');
+        addOption(S2, 'Telanai', 'Telanai');
+        addOption(S2, 'Paal 10', 'Paal 10');
+    } else {
+        addOption(S2, 'Pilih Region', 'Pilih Region');
+    }
+
+    var s2Select = document.getElementById('S2');
+        var npLabel = document.querySelector('label[for="nam"]');
+        var npInput = document.getElementById('nam');
+
+        // Your existing logic to update S2 options goes here
+
+        // Check if BVS is selected
+        if (selectedOption.value === 'BVS') {
+            // Hide Nama label and input
+            npLabel.style.display = 'none';
+            npInput.style.display = 'none';
+        } else {
+            // Show Nama label and input for other ISPs
+            npLabel.style.display = 'block';  // or 'inline-block' based on your styling
+            npInput.style.display = 'block';  // or 'inline-block' based on your styling
+        }
+
+}
+
+		function displayResult() {
+			var s1 = document.getElementById('s1');
+			var S2 = document.getElementById('S2');
+			var resultElement = document.getElementById('result');
+
+			var selectedISP = s1.value;
+			var selectedRegion = S2.value;
+
+			if (selectedISP === 'ISP' || selectedRegion === 'Region') {
+				resultElement.innerHTML = 'Please select options from both dropdowns.';
+			} else {
+				resultElement.innerHTML = 'Selected ISP: ' + selectedISP + ', Selected Region: ' + selectedRegion;
+			}
+		}
+
+    function addOption(selectElement, value, text) {
+        var option = document.createElement('option');
+        option.value = value;
+        option.text = text;
+        selectElement.add(option);
+    }
+    
+
+    function generateScript() {
+        var nam = document.getElementById('nam').value;
+        var pel = document.getElementById('pel').value;
+        var mdm = document.getElementById('mdm').value;
+        var sn = document.getElementById('sn').value;
+        var prt = document.getElementById('prt').value;
+        var sl = document.getElementById('sl').value;
+
+        var modemScript = '';
+        if (mdm === 'RTE') {
+            //--modemScript = 'F670L-RTE';
+            modemScript = pel;
+        } else if (mdm === 'ZTE') {
+            modemScript = pel;
+        }
+
+        if (nam == '') {
+            nam = pel;
+        }
+
+        var regionScript = '';
+        var selectedRegion = document.getElementById('S2').value;
+        
+        if (selectedRegion === 'Bangko') {
+            regionScript = `
+con t
+interface gpon-olt_${prt}
+onu ${sl} type ALL-ONT sn ${sn}
+!
+interface gpon-onu_${prt}:${sl}
+description ${nam}-${modemScript}
+tcont 1 name internet profile internet
+tcont 2 gap mode2
+tcont 2 name iptv profile iptv
+gemport 1 name internet tcont 1
+gemport 2 name iptv tcont 2
+service-port 1 vport 1 user-vlan 57 vlan 57
+service-port 2 vport 2 user-vlan 516 vlan 516
+!
+pon-onu-mng gpon-onu_${prt}:${sl}
+service internet gemport 1 vlan 57
+service iptv gemport 2 vlan 516
+wan-ip 1 mode pppoe username ${modemScript} password 123456 vlan-profile Net-Bangko host 1
+wan-ip 1 ping-response enable traceroute-response enable
+pppoe 1 nat enable user ${pel} password 123456
+vlan port eth_0/4 mode tag vlan 516
+dhcp-ip ethuni eth_0/4 from-internet
+security-mgmt 212 state enable mode forward protocol web
+wan 1 ssid 1,5 service internet host 1
+!
+igmp mvlan 516 receive-port gpon-onu_${prt}:${sl} vport 2
+exit
+wr`;
+
+        } else if (selectedRegion === 'Bulian') {
+            regionScript = ` 
+con t
+interface gpon-olt_${prt}
+onu ${sl} type ZTE-F660 sn ${sn}
+!
+interface gpon-onu_${prt}:${sl}
+description  ${nam}-${modemScript}
+tcont 1 name internet profile 10MB
+tcont 2 name IPTV profile 10MB
+gemport 1 name internet unicast tcont 1 dir both
+gemport 2 name iptv unicast tcont 2 dir both
+switchport mode hybrid vport 1
+switchport mode hybrid vport 2
+service-port 1 vport 1 user-vlan 80 vlan 80
+service-port 2 vport 2 user-vlan 666 vlan 666
+service-port 2 description iptv
+!
+pon-onu-mng gpon-onu_${prt}:${sl}
+service iptv gemport 2 vlan 666
+service internet gemport 1 vlan 80
+wan-ip 1 mode pppoe username ${modemScript} password 123456 vlan-profile Net.Bulian host 1
+wan-ip 1 ping-response enable traceroute-response enable
+pppoe 1 nat enable user ${pel} password 123456
+vlan port eth_0/1 mode tag vlan 80
+vlan port eth_0/4 mode tag vlan 666
+dhcp-ip ethuni eth_0/4 from-internet
+security-mng 212 state enable mode permit protocol web
+wan 1 ssid 1,5 service internet host 1
+!
+
+igmp mvlan 666 receive-port gpon-onu_${prt}:${sl} vport 2
+!
+
+
+
+exit
+write`;
+
+        }
+			else if (selectedRegion === 'Jambi') {
+				regionScript = `
+conf t
+interface gpon-olt_${prt}
+onu ${sl} type ALL-ONT sn ${sn}
+!
+interface gpon-onu_${prt}:${sl}
+description ${nam}-${modemScript}
+tcont 1 name internet profile internet
+tcont 2 name iptv profile iptv
+gemport 1 name internet unicast tcont 1 dir both
+gemport 2 name iptv unicast tcont 2 dir both
+switchport mode hybrid vport 1
+switchport mode hybrid vport 2
+service-port 1 vport 1 user-vlan 87 vlan 87
+service-port 2 vport 2 user-vlan 78 vlan 78
+!
+pon-onu-mng gpon-onu_${prt}:${sl}
+service iptv gemport 2 vlan 78
+service internet gemport 1 vlan 87
+wan-ip 1 mode pppoe username ${modemScript} password 123456 vlan-profile Net.Jambi87 host 1
+wan-ip 1 ping-response enable traceroute-response enable
+pppoe 1 nat enable user ${pel} password 123456
+vlan port eth_0/1 mode tag vlan 87
+vlan port eth_0/3 mode tag vlan 78
+vlan port eth_0/4 mode tag vlan 78
+dhcp-ip ethuni eth_0/3 from-internet
+dhcp-ip ethuni eth_0/4 from-internet
+security-mng 212 state enable mode permit protocol web
+wan 1 ssid 1,5 service internet host 1
+!
+
+igmp mvlan 78 receive-port gpon-onu_${prt}:${sl} vport 2
+!
+
+
+
+exit
+write`;
+								
+		}
+			else if (selectedRegion === 'Sarolangun') {
+				regionScript = `
+conf t
+interface gpon-olt_${prt}
+onu ${sl} type ALL-ONT sn ${sn}
+!
+interface gpon-onu_${prt}:${sl}
+name   $${nam}-${modemScript}
+tcont 1 name internet profile internet
+tcont 2 name iptv profile iptv
+gemport 1 name internet tcont 1
+gemport 2 name iptv tcont 1
+service-port 1 vport 1 user-vlan 125 vlan 125
+service-port 2 vport 2 user-vlan 513 vlan 513
+!
+pon-onu-mng gpon-onu_${prt}:${sl}
+service internet gemport 1 vlan 125
+service iptv gemport 2 vlan 513
+wan-ip 1 mode pppoe username ${modemScript} password 123456 vlan-profile Net.Sarolangu host 1
+wan-ip 1 ping-response enable traceroute-response enable
+pppoe 1 nat enable user ${pel} password 123456
+vlan port eth_0/4 mode tag vlan 513
+dhcp-ip ethuni eth_0/4 from-internet
+security-mgmt 212 state enable mode forward protocol web
+wan 1 ssid 1,5 service internet host 1
+!
+
+igmp mvlan 513 receive-port gpon-onu_${prt}:${sl} vport 2
+!
+exit
+write`;
+		
+		}
+			else if (selectedRegion === 'Paal 10') {
+				regionScript = `
+con t
+interface gpon-olt_${prt}
+onu ${sl} type ALL-ONT sn ${sn}
+!
+interface gpon-onu_${prt}:${sl}
+description ${nam}-${modemScript}
+tcont 1 profile internet
+tcont 2 profile iptv
+tcont 2 gap mode2
+gemport 1 unicast tcont 1 dir both
+gemport 2 unicast tcont 2 dir both
+service-port 1 vport 1 user-vlan 28 vlan 28
+service-port 2 vport 2 user-vlan 665 vlan 665
+!
+pon-onu-mng gpon-onu_${prt}:${sl}
+service internet gemport 1 vlan 28
+service iptv gemport 2 vlan 665
+wan-ip 1 mode pppoe username ${modemScript} password 123456 vlan-profile Pal10 host 1
+wan-ip 1 ping-response enable traceroute-response enable
+pppoe 1 nat enable user ${pel} password 123456
+vlan port eth_0/4 mode tag vlan 665
+dhcp-ip ethuni eth_0/4 from-internet
+security-mng 212 state enable mode permit protocol web
+wan 1 ssid 1,5 service internet host 1
+!
+igmp mvlan 665 receive-port gpon-onu_${prt}:${sl} vport 2
+
+
+exit
+wr`;
+		
+		}	
+			else if (selectedRegion === 'Persijam') {
+				regionScript = `
+con t
+interface gpon-olt_${prt}
+onu ${sl} type ALL-ONT sn ${sn}
+!
+interface gpon-onu_${prt}:${sl}
+description ${nam}-${modemScript}
+tcont 1 profile internet
+tcont 2 profile iptv
+tcont 2 gap mode2
+gemport 1 tcont 1
+gemport 2 tcont 2
+service-port 1 vport 1 user-vlan 28 vlan 28
+service-port 2 vport 2 user-vlan 665 vlan 665
+!
+pon-onu-mng gpon-onu_${prt}:${sl}
+service internet gemport 1 vlan 28
+service iptv gemport 2 vlan 665
+wan-ip 1 mode pppoe username ${modemScript} password 123456 vlan-profile 28_pppoe host 1
+wan-ip 1 ping-response enable traceroute-response enable
+pppoe 1 nat enable user ${pel} password 123456
+vlan port eth_0/4 mode tag vlan 665
+dhcp-ip ethuni eth_0/4 from-internet
+security-mgmt 212 state enable mode forward protocol web
+wan 1 ssid 1,5 service internet host 1
+!
+igmp mvlan 665 receive-port gpon-onu_${prt}:${sl} vport 2
+
+
+
+
+exit
+wr`;
+									
+		}
+			else if (selectedRegion === 'Telanai') {
+			regionScript = `
+con t
+interface gpon-olt_${prt}
+onu ${sl} type ALL-ONT sn ${sn}
+!
+interface gpon-onu_${prt}:${sl}
+description ${nam}-${modemScript}
+tcont 1 name internet profile internet
+tcont 2 name iptv profile iptv
+tcont 2 gap mode2
+gemport 1 name internet tcont 1
+gemport 2 name iptv tcont 2
+service-port 1 vport 1 user-vlan 255 vlan 255
+service-port 2 vport 2 user-vlan 665 vlan 665
+!
+pon-onu-mng gpon-onu_${prt}:${sl}
+service internet gemport 1 vlan 255
+service iptv gemport 2 vlan 665
+wan-ip 1 mode pppoe username ${modemScript} password 123456 vlan-profile PPPOE_255 host 1
+wan-ip 1 ping-response enable traceroute-response enable
+pppoe 1 nat enable user ${pel} password 123456
+vlan port eth_0/4 mode tag vlan 665
+dhcp-ip ethuni eth_0/4 from-internet
+security-mgmt 212 state enable mode forward protocol web
+wan 1 ssid 1,5 service internet host 1
+!
+igmp mvlan 665 receive-port gpon-onu_${prt}:${sl} vport 2
+
+
+
+
+exit
+wr`;
+
+
+        // You can add other conditions for different regions...
+		}
+        document.getElementById('generatedScript').textContent = regionScript;  
+        
+	}
+    
+    function copyScriptToClipboard() {
+        var generatedScript = document.getElementById('generatedScript');
+        var textarea = document.createElement('textarea');
+        textarea.value = generatedScript.textContent;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+    }
+    
+    </script>
+</body>
+</html>
